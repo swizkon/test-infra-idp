@@ -8,6 +8,7 @@ using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
 using System;
+using System.Linq;
 
 namespace IdentityServer
 {
@@ -17,25 +18,35 @@ namespace IdentityServer
         {
             Console.Title = "IdentityServer4";
 
-            CreateWebHostBuilder(args).Build().Run();
+            var builder = CreateWebHostBuilder(args);
+
+            // .UseUrls(GetUrls(args))
+            if (args.Any(x => x.StartsWith("--useUrls=")))
+            {
+                builder = builder.UseUrls(args.Where(x => x.StartsWith("--useUrls="))
+                                              .Select(x => x.Replace("--useUrls=", ""))
+                                              .ToArray());
+            }
+
+            builder.Build().Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)
         {
             return WebHost.CreateDefaultBuilder(args)
                     .UseStartup<Startup>();
-                /*
-                    .UseSerilog((context, configuration) =>
-                    {
-                        configuration
-                            .MinimumLevel.Debug()
-                            .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-                            .MinimumLevel.Override("System", LogEventLevel.Warning)
-                            .MinimumLevel.Override("Microsoft.AspNetCore.Authentication", LogEventLevel.Information)
-                            .Enrich.FromLogContext()
-                            .WriteTo.File(@"identityserver4_log.txt")
-                            .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}", theme: AnsiConsoleTheme.Literate);
-                    });*/
+
+                    //.UseSerilog((context, configuration) =>
+                    //{
+                    //    configuration
+                    //        .MinimumLevel.Debug()
+                    //        .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+                    //        .MinimumLevel.Override("System", LogEventLevel.Warning)
+                    //        .MinimumLevel.Override("Microsoft.AspNetCore.Authentication", LogEventLevel.Information)
+                    //        .Enrich.FromLogContext()
+                    //        .WriteTo.File(@"identityserver4_log.txt")
+                    //        .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}", theme: AnsiConsoleTheme.Literate);
+                    //});
         }
     }
 }
