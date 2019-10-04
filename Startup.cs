@@ -53,7 +53,7 @@ namespace IdentityServer
                     options.SignOutScheme = IdentityServerConstants.SignoutScheme;
                     options.SaveTokens = true;
 
-                    options.Authority = "https://demo.identityserver.io/";
+                    options.Authority = "https://sigma-boost-app-idp.azurewebsites.net/";
                     options.ClientId = "implicit";
 
                     options.TokenValidationParameters = new TokenValidationParameters
