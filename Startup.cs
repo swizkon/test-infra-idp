@@ -34,7 +34,7 @@ namespace IdentityServer
             }
             else
             {
-                throw new Exception("need to configure key material");
+                // throw new Exception("need to configure key material");
             }
         }
 
