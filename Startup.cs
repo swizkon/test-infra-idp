@@ -40,6 +40,7 @@ namespace IdentityServer
             }
 
             services.AddAuthentication()
+                /*
                 .AddGoogle("Google", options =>
                 {
                     options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
@@ -47,6 +48,7 @@ namespace IdentityServer
                     options.ClientId = "<insert here>";
                     options.ClientSecret = "<insert here>";
                 })
+                */
                 .AddOpenIdConnect("oidc", "OpenID Connect", options =>
                 {
                     options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
